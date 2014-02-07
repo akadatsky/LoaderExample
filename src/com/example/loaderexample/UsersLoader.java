@@ -13,7 +13,20 @@ public class UsersLoader extends AsyncTaskLoader<List<User>> {
   public UsersLoader(Context context) {
     super(context);
     userDatabase = UserDatabase.get(context);
+
+
+    /**
+     * callBack with onChange() method
+     * which will be called when DB change detected
+     * ( in DB will be called "getContentResolver().notifyChange()" )
+     * and this observer will call forceLoad();
+     */
     ContentObserver observer = new ForceLoadContentObserver();
+
+    /**
+     * register observer which keep track of changes connected
+     * with specified database table specified in URI
+     */
     getContext().getContentResolver().registerContentObserver(UserDatabase.USER_URI, true, observer);
   }
 
